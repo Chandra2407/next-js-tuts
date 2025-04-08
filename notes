@@ -1,0 +1,6 @@
+Routing conventions
+1) all routes must live inside the app folder
+2) route files must be names either page.js or page.tsx
+3) each folder represents a segment of the url path
+
+when these conventions are followed the files automatically become available as a route
