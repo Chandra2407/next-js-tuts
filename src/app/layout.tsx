@@ -10,7 +10,15 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <header className="flex justify-between items-center p-4 bg-gray-800 text-white">
+          header
+        </header>
+        {children}
+        <footer className="flex justify-between items-center p-4 bg-gray-800 text-white">
+          footer
+        </footer>
+      </body>
     </html>
   )
 }
