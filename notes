@@ -4,3 +4,10 @@ Routing conventions
 3) each folder represents a segment of the url path
 
 when these conventions are followed the files automatically become available as a route
+
+
+metadata rules
+
+both layout and page file can export metadata. layout meta data applies to all its pages and page meta data only applies to that specific page
+Meta data follows a top down level starting from root level
+when meta deta exists in multiple places along a route they merge together with page meta data overriding layout metadata for matching properties

@@ -1,7 +1,19 @@
-export default async function Product({params} : {params: Promise<{productid: string}>}) {
-    // The params object is a promise, so we need to await it
-    const product = await params;
-    const productid = product.productid;
+import { Metadata } from "next";
+
+type Props = {
+  params: { productid: string };
+};
+
+export const generateMetadata = async ({ params }: Props): Promise<Metadata> => {
+  const productid = params.productid;
+  return {
+    title: `Product ${productid}`,
+    description: `This is the product page for product ${productid}.`,
+  };
+};
+
+export default function Product({ params }: Props) {
+  const productid = params.productid;
   return (
     <div>
       <h1>Product {productid}</h1>
