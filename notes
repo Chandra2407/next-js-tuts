@@ -11,3 +11,57 @@ metadata rules
 both layout and page file can export metadata. layout meta data applies to all its pages and page meta data only applies to that specific page
 Meta data follows a top down level starting from root level
 when meta deta exists in multiple places along a route they merge together with page meta data overriding layout metadata for matching properties
+
+
+
+In Next.js (particularly in the App Router), you can't directly access searchParams in layout files because of how the framework handles rendering and caching
+
+Layouts in Next.js are statically rendered by default at build time, while search parameters (?key=value) are dynamic and only available during client-side requests.
+
+layout.tsx is rendered once and reused across multiple routes. It's not tied to any specific URL, so:
+
+It doesn’t receive searchParams because search params are route-specific, and layouts are not route-specific.
+
+Layouts are not re-rendered when the URL search params change.
+
+This avoids unnecessary re-renders and boosts performance.
+
+
+Technical Explanation
+Static Generation of Layouts: Layouts are shared across multiple pages and are optimized to be rendered once. They don't re-render when route changes occur.
+
+Dynamic Nature of searchParams: URL search parameters are inherently dynamic and can change without a full page reload in client-side navigation.
+
+Caching Implications: If layouts depended on searchParams, Next.js couldn't effectively cache the layout components, which would negate many performance benefits.
+
+
+Workarounds
+If you need search parameters in a layout, you have several options:
+
+Use a Client Component:
+
+jsx
+Copy
+'use client';
+import { useSearchParams } from 'next/navigation';
+
+export default function LayoutComponent() {
+  const searchParams = useSearchParams();
+  // ...
+}
+Move the Logic to Page Components and pass data to layout via props or context.
+
+Use a Template File instead of a layout, as templates re-render on navigation and can access searchParams.
+
+Server-Side Alternative (Next.js 13.4+):
+
+jsx
+Copy
+export default function Layout({ params, searchParams }) {
+  // Only works if you opt into dynamic rendering
+  // by exporting this:
+  export const dynamic = 'force-dynamic';
+  // ...
+}
+Best Practice
+The Next.js team recommends keeping layouts static when possible and handling dynamic data requirements in page components or client components to maintain optimal performance
